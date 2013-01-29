@@ -33,9 +33,12 @@ func main() {
 
 	population := NewPopulation()
 	population.Populate()
+	generation := 1
 	for {
 		population = population.Crossover()
+		fmt.Printf("%d\t", generation)
 		population.Print()
+		generation++
 	}
 
 	ch := NewChromozome()

@@ -79,6 +79,6 @@ func (ch *Chromozome) Print() {
 		for _, num := range *set {
 			fmt.Printf("%2s, ", strconv.Itoa(int(num)))
 		}
-		fmt.Println(ch.score)
+		fmt.Printf("[%d]\n", ch.score)
 	}
 }
