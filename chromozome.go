@@ -5,10 +5,11 @@ import (
 	"github.com/earthboundkid/shuffle"
 	"math/rand"
 	"sort"
+	"strconv"
 )
 
 const (
-	MAX_SETS = 4
+	MAX_SETS = 1
 )
 
 type Set sort.IntSlice
@@ -55,8 +56,11 @@ func (set *Set) getScore() int {
 
 func NewChromozome() *Chromozome {
 	var ch Chromozome
-	num_sets := rand.Intn(MAX_SETS - 1)
-	for i := -1; i < num_sets; i++ {
+	num_sets := 1
+	if MAX_SETS > 1 {
+		num_sets = rand.Intn(MAX_SETS) - 1
+	}
+	for i := 0; i < num_sets; i++ {
 		ch.sets = append(ch.sets, NewSet())
 	}
 	ch.getScore()
@@ -73,7 +77,7 @@ func (ch *Chromozome) getScore() {
 func (ch *Chromozome) Print() {
 	for _, set := range ch.sets {
 		for _, num := range *set {
-			fmt.Printf("%d\t", num)
+			fmt.Printf("%2s, ", strconv.Itoa(int(num)))
 		}
 		fmt.Println(ch.score)
 	}
