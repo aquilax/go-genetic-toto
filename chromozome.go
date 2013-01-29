@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"sort"
-	"math/rand"
 	"github.com/earthboundkid/shuffle"
+	"math/rand"
+	"sort"
 )
 
 const (
@@ -34,8 +34,8 @@ func (set *Set) getScore() int {
 		matches = 0
 		score += -1 //1 combination cost
 		for _, num := range *set {
-			n := sort.SearchInts(row, num)
-			if n < len(row) && row[n] == num {
+			n := sort.SearchInts(*row, num)
+			if n < len(*row) && (*row)[n] == num {
 				matches++
 			}
 		}
@@ -55,8 +55,8 @@ func (set *Set) getScore() int {
 
 func NewChromozome() *Chromozome {
 	var ch Chromozome
-	num_sets := rand.Intn(MAX_SETS)
-	for i := -1; i < num_sets-1; i++ {
+	num_sets := rand.Intn(MAX_SETS - 1)
+	for i := -1; i < num_sets; i++ {
 		ch.sets = append(ch.sets, NewSet())
 	}
 	ch.getScore()
@@ -72,4 +72,9 @@ func (ch *Chromozome) getScore() {
 
 func (ch *Chromozome) Print() {
 	for _, set := range ch.sets {
+		for _, num := range *set {
+			fmt.Printf("%d\t", num)
+		}
+		fmt.Println(ch.score)
+	}
 }
