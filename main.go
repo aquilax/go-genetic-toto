@@ -33,11 +33,16 @@ func main() {
 
 	population := NewPopulation()
 	population.Populate()
+	best := -99999999
 	generation := 1
 	for {
 		population = population.Crossover()
-		fmt.Printf("%d\t", generation)
-		population.Print()
+		score := (*population)[0].score
+		if score > best {
+			fmt.Printf("%d\t", generation)
+			population.Print()
+			best = score
+		}
 		generation++
 	}
 

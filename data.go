@@ -57,8 +57,9 @@ func (t *TestData) LoadFromFile(file_name string) {
 		}
 		draw_separator := strings.Index(line, "\t\t")
 		*t = append(*t, getCombination(line[dash_ndx+1:draw_separator]))
-		*t = append(*t, getCombination(line[draw_separator:]))
+		//*t = append(*t, getCombination(line[draw_separator:]))
 	}
+	fmt.Printf("Data loaded from %s\n", file_name)
 }
 
 func mytrim(s string) string {

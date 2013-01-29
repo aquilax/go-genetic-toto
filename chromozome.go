@@ -15,7 +15,7 @@ const (
 type Set sort.IntSlice
 
 type Chromozome struct {
-	sets  []*Set
+	set   *Set
 	score int
 }
 
@@ -25,6 +25,7 @@ func NewSet() *Set {
 	for i := 0; i < 6; i++ {
 		set = append(set, numbers[i])
 	}
+	sort.Sort(sort.IntSlice(set))
 	return &set
 }
 
@@ -33,7 +34,7 @@ func (set *Set) getScore() int {
 	matches := 0
 	for _, row := range *test_data {
 		matches = 0
-		score += -1 //1 combination cost
+		//		score += -1 //1 combination cost
 		for _, num := range *set {
 			n := sort.SearchInts(*row, num)
 			if n < len(*row) && (*row)[n] == num {
@@ -56,29 +57,33 @@ func (set *Set) getScore() int {
 
 func NewChromozome() *Chromozome {
 	var ch Chromozome
-	num_sets := 1
-	if MAX_SETS > 1 {
-		num_sets = rand.Intn(MAX_SETS) - 1
-	}
-	for i := 0; i < num_sets; i++ {
-		ch.sets = append(ch.sets, NewSet())
-	}
-	ch.getScore()
+	ch.set = NewSet()
+	ch.score = ch.set.getScore()
 	return &ch
 }
 
-func (ch *Chromozome) getScore() {
-	ch.score = 0
-	for _, set := range ch.sets {
-		ch.score += set.getScore()
+func (ch *Chromozome) Print() {
+	for _, num := range *ch.set {
+		fmt.Printf("%2s, ", strconv.Itoa(int(num)))
 	}
+	fmt.Printf("[%d]\n", ch.score)
 }
 
-func (ch *Chromozome) Print() {
-	for _, set := range ch.sets {
-		for _, num := range *set {
-			fmt.Printf("%2s, ", strconv.Itoa(int(num)))
+func (ch1 *Chromozome) dumbMate(ch2 *Chromozome) *Chromozome {
+	var ch Chromozome
+	var set Set
+	length := len(*ch1.set)
+	for i := 0; i < length; i++ {
+		parent := rand.Intn(1)
+		if parent == 0 {
+			set = append(set, (*ch1.set)[i])
+			continue
 		}
-		fmt.Printf("[%d]\n", ch.score)
+		set = append(set, (*ch2.set)[i])
+
 	}
+	sort.Sort(sort.IntSlice(set))
+	ch.set = &set
+	ch.score = ch.set.getScore()
+	return &ch
 }

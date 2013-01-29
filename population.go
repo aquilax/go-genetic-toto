@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/rand"
 	"sort"
 )
 
@@ -23,9 +24,11 @@ func (p *Population) Populate() {
 
 func (p *Population) Crossover() *Population {
 	p_new := NewPopulation()
-	limit := (options.pool_size / 100) * 40
+	limit := (options.pool_size / 100) * 10
 	for i := 0; i < limit; i++ {
-		*p_new = append(*p_new, (*p)[i])
+		// Randomize sex
+		r := rand.Intn(3) + 1
+		*p_new = append(*p_new, (*p)[i].dumbMate((*p)[i+r]))
 	}
 	for j := limit; j < options.pool_size; j++ {
 		*p_new = append(*p_new, NewChromozome())
