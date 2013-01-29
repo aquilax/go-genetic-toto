@@ -43,13 +43,13 @@ func (set *Set) getScore() int {
 		}
 		switch matches {
 		case 3:
-			score += 1
+			score += 2
 		case 4:
-			score += 2 * 2
+			score += 2 << 1
 		case 5:
-			score += 2 * 3
+			score += 2 << 2
 		case 6:
-			score += 2 * 4
+			score += 2 << 3
 		}
 	}
 	return score
